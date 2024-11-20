@@ -1,0 +1,71 @@
+@startuml
+'!theme plain
+skinparam backgroundColor transparent
+
+' Business Layer Elements
+archimate #Business "Researcher" <<business-actor>> as researcher
+archimate #Business "Research Lead" <<business-role>> as researchLead
+archimate #Business "Literature Review Process" <<business-process>> as literatureReview
+archimate #Business "Project Management" <<business-process>> as projectManagement
+archimate #Business "Document Management" <<business-process>> as documentManagement
+
+' Application Layer Elements
+archimate #APPLICATION "API Gateway" <<application-component>> as apiGateway
+archimate #APPLICATION "Auth Service" <<application-component>> as authService
+archimate #APPLICATION "Project Service" <<application-component>> as projectService
+archimate #APPLICATION "Document Service" <<application-component>> as documentService
+archimate #APPLICATION "Search Service" <<application-component>> as searchService
+
+' Observability Components
+archimate #APPLICATION "OpenTelemetry Collector" <<application-component>> as telemetryCollector
+archimate #APPLICATION "Prometheus Service" <<application-component>> as prometheusService
+archimate #APPLICATION "GNN Analysis Service" <<application-component>> as gnnAnalyzer
+
+' Technology Layer Elements
+archimate #TECHNOLOGY "Container Runtime" <<technology-system>> as containerRuntime
+archimate #TECHNOLOGY "Kubernetes Platform" <<technology-system>> as kubernetes
+archimate #TECHNOLOGY "Document Store" <<technology-system>> as documentStore
+archimate #TECHNOLOGY "Metrics Store" <<technology-system>> as metricsStore
+archimate #TECHNOLOGY "Message Queue" <<technology-system>> as messageQueue
+
+' Business Layer Relationships
+researcher -down-> researchLead : "performs"
+researchLead -down-> literatureReview : "triggers"
+literatureReview -down-> projectManagement : "includes"
+literatureReview -down-> documentManagement : "includes"
+
+' Application Layer Relationships
+literatureReview -down-> apiGateway : "uses"
+projectManagement -down-> apiGateway : "uses"
+documentManagement -down-> apiGateway : "uses"
+
+apiGateway -down-> authService : "routes"
+apiGateway -down-> projectService : "routes"
+apiGateway -down-> documentService : "routes"
+apiGateway -down-> searchService : "routes"
+
+' Observability Relationships
+authService -down-> telemetryCollector : "monitored by"
+projectService -down-> telemetryCollector : "monitored by"
+documentService -down-> telemetryCollector : "monitored by"
+searchService -down-> telemetryCollector : "monitored by"
+
+telemetryCollector -down-> prometheusService : "sends metrics"
+prometheusService -down-> gnnAnalyzer : "provides data"
+
+' Technology Layer Relationships
+kubernetes -down-> containerRuntime : "manages"
+containerRuntime -up-> apiGateway : "hosts"
+containerRuntime -up-> authService : "hosts"
+containerRuntime -up-> projectService : "hosts"
+containerRuntime -up-> documentService : "hosts"
+containerRuntime -up-> searchService : "hosts"
+containerRuntime -up-> telemetryCollector : "hosts"
+containerRuntime -up-> prometheusService : "hosts"
+containerRuntime -up-> gnnAnalyzer : "hosts"
+
+documentService -down-> documentStore : "uses"
+gnnAnalyzer -down-> metricsStore : "writes to"
+apiGateway -down-> messageQueue : "uses"
+
+@enduml
