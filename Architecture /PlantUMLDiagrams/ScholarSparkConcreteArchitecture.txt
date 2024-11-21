@@ -67,5 +67,4 @@ containerRuntime -up-> gnnAnalyzer : "hosts"
 documentService -down-> documentStore : "uses"
 gnnAnalyzer -down-> metricsStore : "writes to"
 apiGateway -down-> messageQueue : "uses"
-
 @enduml
