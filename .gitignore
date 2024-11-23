@@ -1,0 +1,45 @@
+pycache/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest
+pytest_cache/
+
+# FastAPI
+fastapi/
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# IDE files
+.vscode/
+pycharm/
+.idea/
+spyderproject/
+.spyproject/
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Logs
+*.log
+*.log.*
+log/
+logs/
+
+# Node.js
+node_modules/
+
+# Yarn
+yarn.lock
+yarn-error.log
+
+# Django stuff
+*.sqlite3
+pylint/
+pylint.d/

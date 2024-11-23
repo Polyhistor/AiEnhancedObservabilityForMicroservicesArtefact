@@ -16,7 +16,7 @@ class OTelSetup:
     Supports multiple exporters and provides comprehensive observability setup.
     """
     _instance = None
-    
+      
     def __init__(self, 
                  service_name: str,
                  service_version: str,
