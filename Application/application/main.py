@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .core.config import Settings
+from .core.config import settings
 from .api.v1.router import router as v1_router
 
 # Initialize FastAPI app
@@ -32,7 +32,7 @@ app.include_router(
 async def root():
     return {
         "status": "online",
-        "version": Settings.VERSION
+        "version": settings.VERSION
     }
 
 # Health check endpoint
@@ -40,7 +40,7 @@ async def root():
 async def health_check():
     return {
         "status": "healthy",
-        "service": Settings.APP_NAME
+        "service": settings.APP_NAME
     }
 
 if __name__ == "__main__":
