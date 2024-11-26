@@ -23,9 +23,10 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
+        # If no options passed, we set the expiry delta to 30 minutes
         expire = datetime.utcnow() + timedelta(minutes=settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
     
-    to_encode.update({"exp": expire})
+    to_encode.update({"expiry": expire})
     
     # Create JWT token
     encoded_jwt = jwt.encode(
